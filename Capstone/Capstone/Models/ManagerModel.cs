@@ -6,10 +6,15 @@ using System.Threading.Tasks;
 
 namespace Capstone.Models
 {
-    public class TaskManager
+    public class Manager
     {
         [Key]
         public int Id { get; set; }
-        public 
+
+
+
+
+
+
     }
 }
