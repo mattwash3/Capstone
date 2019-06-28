@@ -40,12 +40,12 @@ namespace Capstone.Models
                 {
                     UserName = "test@test.com",
                     Email = "test@test.com",
-                    FirstName = "Matt",
-                    LastName = "Washington",
-                    Street = "1234 N 1st Street",
-                    City = "Milwaukee",
-                    State = "WI",
-                    Zipcode = "53208",
+                    //FirstName = "Matt",
+                    //LastName = "Washington",
+                    //Street = "1234 N 1st Street",
+                    //City = "Milwaukee",
+                    //State = "WI",
+                    //Zipcode = "53208",
                     PhoneNumber = "987654321"
                 };
 
@@ -64,12 +64,12 @@ namespace Capstone.Models
                 {
                     UserName = "aa@aa.com",
                     Email = "aa@aa.com",
-                    FirstName = "Brice",
-                    LastName = "Mathews",
-                    Street = "5678 S 2nd Street",
-                    City = "Greenfield",
-                    State = "WI",
-                    Zipcode = "53129",
+                    //FirstName = "Brice",
+                    //LastName = "Mathews",
+                    //Street = "5678 S 2nd Street",
+                    //City = "Greenfield",
+                    //State = "WI",
+                    //Zipcode = "53129",
                     PhoneNumber = "123456789"
                 };
 
@@ -88,12 +88,12 @@ namespace Capstone.Models
                 {
                     UserName = "bb@bb.com",
                     Email = "bb@bb.com",
-                    FirstName = "Luke",
-                    LastName = "Minturn",
-                    Street = "3456 E 3rd Street",
-                    City = "Brookfield",
-                    State = "WI",
-                    Zipcode = "53008",
+                    //FirstName = "Luke",
+                    //LastName = "Minturn",
+                    //Street = "3456 E 3rd Street",
+                    //City = "Brookfield",
+                    //State = "WI",
+                    //Zipcode = "53008",
                     PhoneNumber = "456789123"
                 };
 
@@ -111,12 +111,12 @@ namespace Capstone.Models
                 {
                     UserName = "cc@cc.com",
                     Email = "cc@cc.com",
-                    FirstName = "Rory",
-                    LastName = "Houlihan",
-                    Street = "9645 W 4th Street",
-                    City = "Oak Creek",
-                    State = "WI",
-                    Zipcode = "53154",
+                    //FirstName = "Rory",
+                    //LastName = "Houlihan",
+                    //Street = "9645 W 4th Street",
+                    //City = "Oak Creek",
+                    //State = "WI",
+                    //Zipcode = "53154",
                     PhoneNumber = "765432189"
                 };
 

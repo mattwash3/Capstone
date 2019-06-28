@@ -28,6 +28,12 @@ namespace Capstone
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdministratorRole",
+                     policy => policy.RequireRole("Administrator"));
+            });
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -41,6 +47,7 @@ namespace Capstone
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(
                 options => options.Stores.MaxLengthForKeys = 128)
+                .AddRoles<ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
@@ -78,7 +85,10 @@ namespace Capstone
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            SeededData.Initialize(context, userManager, roleManager).Wait();
+            
+            //SeededData.Initialize(context, userManager, roleManager).Wait();
+        
         }
+        
     }
 }

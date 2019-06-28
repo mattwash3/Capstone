@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Capstone.Data;
 using Capstone.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Capstone.Controllers
-{
+{ 
+    [Authorize(Roles = "Admin, Manager")]
+
     public class ManagersController : Controller
     {
         private readonly ApplicationDbContext _context;

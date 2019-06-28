@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Capstone.Data;
 using Capstone.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Capstone.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class EmployeesController : Controller
     {
         private readonly ApplicationDbContext _context;
