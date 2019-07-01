@@ -14,7 +14,7 @@ namespace Capstone.Controllers
         {
             //if this user.role = said role send them to the create page of said user role
             //find current user, find current users role (.notation), current user role to create page of roles controller
-
+            ViewBag.Title = "Home Page";
 
             return View();
         }
