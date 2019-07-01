@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Capstone.Models;
 using Microsoft.AspNetCore.Authorization;
 using Domain;
+using System.Security.Claims;
 
 namespace Capstone.Controllers
 { 
@@ -152,5 +153,12 @@ namespace Capstone.Controllers
         {
             return _context.Manager.Any(e => e.Id == id);
         }
+
+        //public ApplicationUser GetLoggedInUser()
+        //{
+        //    var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    Manager manager = _context.Manager.Where(m => m.ApplicationUserId == currentUserId).FirstOrDefault();
+        //    return manager;
+        //}
     }
 }

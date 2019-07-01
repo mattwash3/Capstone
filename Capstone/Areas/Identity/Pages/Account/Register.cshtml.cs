@@ -61,35 +61,6 @@ namespace Capstone.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
             public string Role { get; internal set; }
-
-            //[Required]
-            //[StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
-            //[DataType(DataType.Text)]
-            //[Display(Name = "First Name")]
-            //public string FirstName { get; set; }
-
-            //[Required]
-            //[StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
-            //[DataType(DataType.Text)]
-            //[Display(Name = "Last Name")]
-            //public string LastName { get; set; }
-
-            //[DataType(DataType.Text)]
-            //[MaxLength(50)]
-            //public string Street { get; set; }
-
-            //[DataType(DataType.Text)]
-            //[MaxLength(50)]
-            //public string City { get; set; }
-
-            //[DataType(DataType.Text)]
-            //[MaxLength(50)]
-            //public string State { get; set; }
-
-            //[DataType(DataType.Text)]
-            //[MaxLength(15)]
-            //[Display(Name = "Zipcode")]
-            //public string Zipcode { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
@@ -107,12 +78,6 @@ namespace Capstone.Areas.Identity.Pages.Account
                     UserName = Input.Email,
                     Email = Input.Email,
                     Role = Input.Role
-                    //FirstName = Input.FirstName,
-                    //LastName = Input.LastName,
-                    //Street = Input.Street,
-                    //City = Input.City,
-                    //State = Input.State,
-                    //Zipcode = Input.Zipcode
                 };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -144,19 +109,3 @@ namespace Capstone.Areas.Identity.Pages.Account
         }
     }
 }
-
-
-
-//public Employee GetLoggedInUser()
-//{
-//    var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-//    Employee employee = _context.Employee.Where(e => e.ApplicationId == currentUserId).FirstOrDefault();
-//    return employee;
-//}
-
-//public Manager GetLoggedInUser()
-//{
-//    var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-//    Manager manager = _context.Employee.Where(m => m.ApplicationId == currentUserId).FirstOrDefault();
-//    return manager;
-//}

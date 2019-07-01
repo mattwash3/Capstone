@@ -12,11 +12,11 @@ using ApplicationDbContext = Domain.ApplicationDbContext;
 
 namespace Capstone.Controllers
 {
-    public class TaskManagersController : Controller
+    public class TaskLogController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private ApplicationDbContext _context;
 
-        public TaskManagersController(ApplicationDbContext context)
+        public TaskLogController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -31,19 +31,19 @@ namespace Capstone.Controllers
 
         //public Manager GetLoggedInUser()
         //{
-        //    List<TaskManager> taskManager = new List<TaskManager>();
+        //    List<TaskLog> taskLog = new List<TaskLog>();
         //    var currentUser = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
         //    Manager manager = _context.Manager.Where(m => m.ApplicationUserId == currentUser).FirstOrDefault();
         //    return manager;
         //}
 
-        // GET: TaskManagers
+        // GET: TaskLogs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.TaskManager.ToListAsync());
+            return View(await _context.TaskLog.ToListAsync());
         }
 
-        // GET: TaskManagers/Details/5
+        // GET: TaskLogs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -51,39 +51,39 @@ namespace Capstone.Controllers
                 return NotFound();
             }
 
-            var taskManager = await _context.TaskManager
+            var taskLog = await _context.TaskLog
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (taskManager == null)
+            if (taskLog == null)
             {
                 return NotFound();
             }
 
-            return View(taskManager);
+            return View(taskLog);
         }
 
-        // GET: TaskManagers/Create
+        // GET: TaskLogs/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: TaskManagers/Create
+        // POST: TaskLogs/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] TaskLog taskManager)
+        public async Task<IActionResult> Create([Bind("Id")] TaskLog taskLog)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(taskManager);
+                _context.Add(taskLog);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(taskManager);
+            return View(taskLog);
         }
 
-        // GET: TaskManagers/Edit/5
+        // GET: TaskLogs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -91,22 +91,22 @@ namespace Capstone.Controllers
                 return NotFound();
             }
 
-            var taskManager = await _context.TaskManager.FindAsync(id);
-            if (taskManager == null)
+            var taskLog = await _context.TaskLog.FindAsync(id);
+            if (taskLog == null)
             {
                 return NotFound();
             }
-            return View(taskManager);
+            return View(taskLog);
         }
 
-        // POST: TaskManagers/Edit/5
+        // POST: TaskLogs/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] TaskLog taskManager)
+        public async Task<IActionResult> Edit(int id, [Bind("Id")] TaskLog taskLog)
         {
-            if (id != taskManager.Id)
+            if (id != taskLog.Id)
             {
                 return NotFound();
             }
@@ -115,12 +115,12 @@ namespace Capstone.Controllers
             {
                 try
                 {
-                    _context.Update(taskManager);
+                    _context.Update(taskLog);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TaskManagerExists(taskManager.Id))
+                    if (!TaskManagerExists(taskLog.Id))
                     {
                         return NotFound();
                     }
@@ -131,10 +131,10 @@ namespace Capstone.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(taskManager);
+            return View(taskLog);
         }
 
-        // GET: TaskManagers/Delete/5
+        // GET: TaskLogs/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -142,30 +142,30 @@ namespace Capstone.Controllers
                 return NotFound();
             }
 
-            var taskManager = await _context.TaskManager
+            var taskLog = await _context.TaskLog
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (taskManager == null)
+            if (taskLog == null)
             {
                 return NotFound();
             }
 
-            return View(taskManager);
+            return View(taskLog);
         }
 
-        // POST: TaskManagers/Delete/5
+        // POST: TaskLogs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var taskManager = await _context.TaskManager.FindAsync(id);
-            _context.TaskManager.Remove(taskManager);
+            var taskLog = await _context.TaskLog.FindAsync(id);
+            _context.TaskLog.Remove(taskLog);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool TaskManagerExists(int id)
         {
-            return _context.TaskManager.Any(e => e.Id == id);
+            return _context.TaskLog.Any(e => e.Id == id);
         }
     }
 }

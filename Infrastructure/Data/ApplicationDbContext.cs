@@ -11,11 +11,11 @@ namespace Domain
     {
         public DbSet<Employee> Employee { get; set; }
         public DbSet<Manager> Manager { get; set; }
-        public DbSet<TaskLog> TaskManager { get; set; }
+        public DbSet<TaskLog> TaskLog { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-
+            //Database.EnsureCreated();
         }
     }
 }

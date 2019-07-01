@@ -18,8 +18,8 @@ namespace Domain
         public string City { get; set; }
         public string State { get; set; }
         public string Zipcode { get; set; }
-        [ForeignKey("TaskManagerId")]
-        public string TaskManagerId { get; set; }
+        [ForeignKey("TaskLog")]
+        public string TaskLogId { get; set; }
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
