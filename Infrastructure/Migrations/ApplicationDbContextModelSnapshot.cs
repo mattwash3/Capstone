@@ -90,8 +90,6 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Street");
 
-                    b.Property<string>("TaskLogId");
-
                     b.Property<string>("Zipcode");
 
                     b.HasKey("Id");
@@ -119,8 +117,6 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Street");
 
-                    b.Property<string>("TaskLogId");
-
                     b.Property<string>("Zipcode");
 
                     b.HasKey("Id");
@@ -136,9 +132,13 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("EmployeeId");
+
                     b.HasKey("Id");
 
-                    b.ToTable("TaskManager");
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("TaskLog");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -267,6 +267,13 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("Domain.TaskLog", b =>
+                {
+                    b.HasOne("Domain.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

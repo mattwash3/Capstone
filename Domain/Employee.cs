@@ -19,15 +19,9 @@ namespace Domain
         public string State { get; set; }
         public string Zipcode { get; set; }
         [NotMapped]
-        public List<string> DailyTaskLog { get; set; }
-        [NotMapped]
-        public List<string> WeeklyTaskLog { get; set; }
-        [NotMapped]
-        public List<string> MonthlyTaskLog { get; set; }
-        [ForeignKey("TaskLog")]
-        public string TaskLogId { get; set; }
+        public List<TaskLog> TaskLogList { get; set; }
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
-        public virtual ApplicationUser ApplicationUser { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }

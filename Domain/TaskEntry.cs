@@ -10,18 +10,9 @@ namespace Domain
     {
         [Key]
         public int Id { get; set; }
-        public string Call { get; set; }
-        public string Email { get; set; }
-        public string Meeting { get; set; }
-        public string Other { get; set; }
+        public string TaskType { get; set; }
         [ForeignKey("TaskLog")]
         public int TaskLogId { get; set; }
         public TaskLog TaskLog { get; set; }
-        [ForeignKey("Employee")]
-        public int EmployeeId { get; set; }
-        public Employee Employee { get; set; }
-        [ForeignKey("Manager")]
-        public int ManagerId { get; set; }
-        public Manager Manager { get; set; }
     }
 }
