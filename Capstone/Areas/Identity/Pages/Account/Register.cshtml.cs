@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -60,7 +61,9 @@ namespace Capstone.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-            public string Role { get; internal set; }
+
+            [Required]
+            public string UserRole { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
@@ -77,13 +80,29 @@ namespace Capstone.Areas.Identity.Pages.Account
                 {
                     UserName = Input.Email,
                     Email = Input.Email,
-                    Role = Input.Role
+                    RoleString = Input.UserRole
                 };
-
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    if(!await _roleManager.RoleExistsAsync(StaticDetails.Employee))
+                    {
+                        await _roleManager.CreateAsync(new ApplicationRole(StaticDetails.Employee));
+                    }
+                    if(!await _roleManager.RoleExistsAsync(StaticDetails.Manager))
+                    {
+                        await _roleManager.CreateAsync(new ApplicationRole(StaticDetails.Manager));
+                    }
+
+                    if (Input.UserRole == "Manager")
+                    {
+                        await _userManager.AddToRoleAsync(user, StaticDetails.Manager);
+                    }
+                    if (Input.UserRole == "Employee")
+                    {
+                        await _userManager.AddToRoleAsync(user, StaticDetails.Employee);
+                    }
+                    _logger.LogInformation("User created a new account with password and role.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Page(
@@ -97,13 +116,13 @@ namespace Capstone.Areas.Identity.Pages.Account
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     //return LocalRedirect(returnUrl);
-                    if (user.Role == "Employee")
+                    if(user.RoleString == "Employee")
                     {
-                        return RedirectToAction("Create", "Employee");
+                        return RedirectToAction("Create", "Employees");
                     }
-                    if(user.Role == "Manager")
+                    if (user.RoleString == "Manager")
                     {
-                        return RedirectToAction("Create", "Manager");
+                        return RedirectToAction("Create", "Managers");
                     }
                 }
                 foreach (var error in result.Errors)
@@ -111,7 +130,6 @@ namespace Capstone.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-
             // If we got this far, something failed, redisplay form
             return Page();
         }

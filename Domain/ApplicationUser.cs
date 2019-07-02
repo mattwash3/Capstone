@@ -11,9 +11,7 @@ namespace Domain
 {
     public class ApplicationUser : IdentityUser
     {
-        public ApplicationUser() : base() { }
-        //public int Id { get; set; }
-        public string Role { get; set; }
-       
+        public string RoleString { get; set; }
+        public ApplicationUser() : base() { }       
     }
 }

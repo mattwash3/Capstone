@@ -13,6 +13,7 @@ namespace Domain
         public DbSet<Employee> Employee { get; set; }
         public DbSet<Manager> Manager { get; set; }
         public DbSet<TaskLog> TaskLog { get; set; }
+        public DbSet<TaskEntry> TaskEntry { get; set; }
         public DbSet<ApplicationRole> Role { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

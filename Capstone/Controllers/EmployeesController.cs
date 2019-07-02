@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Capstone.Models;
 using Microsoft.AspNetCore.Authorization;
 using Domain;
+using System.Security.Claims;
 
 namespace Capstone.Controllers
 {
@@ -56,10 +57,12 @@ namespace Capstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] Employee employee)
+        public async Task<IActionResult> Create([Bind("Id,UserName,Password,Email,FirstName,LastName,Street,City,State,Zipcode")] Employee employee)
         {
             if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                employee.ApplicationUserId = userId;
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -88,7 +91,7 @@ namespace Capstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] Employee employee)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserName,Password,Email,FirstName,LastName,Street,City,State,Zipcode")] Employee employee)
         {
             if (id != employee.Id)
             {
@@ -150,6 +153,26 @@ namespace Capstone.Controllers
         private bool EmployeeExists(int id)
         {
             return _context.Employee.Any(e => e.Id == id);
+        }
+
+        public ActionResult TaskEntry() 
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Employee employee = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
+            TaskEntry taskEntry = new TaskEntry();
+            return View(taskEntry);
+        }
+
+        public ActionResult SubmitTaskEntry([Bind("TaskType")] TaskEntry taskEntry)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Employee employee = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
+            taskEntry.Id = employee.Id;
+            _context.TaskEntry.Add(taskEntry);
+            _context.SaveChanges();
+            TaskLog taskLog = new TaskLog();
+            taskLog.Memo = taskEntry.TaskType;
+            return RedirectToAction("TaskEntry");
         }
     }
 }

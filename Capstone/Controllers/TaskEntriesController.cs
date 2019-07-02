@@ -5,31 +5,27 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Capstone.Models;
-using Microsoft.AspNetCore.Authorization;
 using Domain;
-using System.Security.Claims;
 
 namespace Capstone.Controllers
-{ 
-    [Authorize(Roles = "Admin, Manager")]
-
-    public class ManagersController : Controller
+{
+    public class TaskEntriesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ManagersController(ApplicationDbContext context)
+        public TaskEntriesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Managers
+        // GET: TaskEntries
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Manager.ToListAsync());
+            var applicationDbContext = _context.TaskEntry.Include(t => t.TaskLog);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Managers/Details/5
+        // GET: TaskEntries/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -37,41 +33,42 @@ namespace Capstone.Controllers
                 return NotFound();
             }
 
-            var manager = await _context.Manager
+            var taskEntry = await _context.TaskEntry
+                .Include(t => t.TaskLog)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (manager == null)
+            if (taskEntry == null)
             {
                 return NotFound();
             }
 
-            return View(manager);
+            return View(taskEntry);
         }
 
-        // GET: Managers/Create
+        // GET: TaskEntries/Create
         public IActionResult Create()
         {
+            ViewData["TaskLogId"] = new SelectList(_context.TaskLog, "Id", "Id");
             return View();
         }
 
-        // POST: Managers/Create
+        // POST: TaskEntries/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserName,Password,Email,FirstName,LastName,Street,City,State,Zipcode")] Manager manager)
+        public async Task<IActionResult> Create([Bind("Id,TaskType,TaskLogId")] TaskEntry taskEntry)
         {
             if (ModelState.IsValid)
             {
-                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                manager.ApplicationUserId = userId;
-                _context.Add(manager);
+                _context.Add(taskEntry);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(manager);
+            ViewData["TaskLogId"] = new SelectList(_context.TaskLog, "Id", "Id", taskEntry.TaskLogId);
+            return View(taskEntry);
         }
 
-        // GET: Managers/Edit/5
+        // GET: TaskEntries/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -79,22 +76,23 @@ namespace Capstone.Controllers
                 return NotFound();
             }
 
-            var manager = await _context.Manager.FindAsync(id);
-            if (manager == null)
+            var taskEntry = await _context.TaskEntry.FindAsync(id);
+            if (taskEntry == null)
             {
                 return NotFound();
             }
-            return View(manager);
+            ViewData["TaskLogId"] = new SelectList(_context.TaskLog, "Id", "Id", taskEntry.TaskLogId);
+            return View(taskEntry);
         }
 
-        // POST: Managers/Edit/5
+        // POST: TaskEntries/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserName,Password,Email,FirstName,LastName,Street,City,State,Zipcode")] Manager manager)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TaskType,TaskLogId")] TaskEntry taskEntry)
         {
-            if (id != manager.Id)
+            if (id != taskEntry.Id)
             {
                 return NotFound();
             }
@@ -103,12 +101,12 @@ namespace Capstone.Controllers
             {
                 try
                 {
-                    _context.Update(manager);
+                    _context.Update(taskEntry);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ManagerExists(manager.Id))
+                    if (!TaskEntryExists(taskEntry.Id))
                     {
                         return NotFound();
                     }
@@ -119,10 +117,11 @@ namespace Capstone.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(manager);
+            ViewData["TaskLogId"] = new SelectList(_context.TaskLog, "Id", "Id", taskEntry.TaskLogId);
+            return View(taskEntry);
         }
 
-        // GET: Managers/Delete/5
+        // GET: TaskEntries/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,37 +129,31 @@ namespace Capstone.Controllers
                 return NotFound();
             }
 
-            var manager = await _context.Manager
+            var taskEntry = await _context.TaskEntry
+                .Include(t => t.TaskLog)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (manager == null)
+            if (taskEntry == null)
             {
                 return NotFound();
             }
 
-            return View(manager);
+            return View(taskEntry);
         }
 
-        // POST: Managers/Delete/5
+        // POST: TaskEntries/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var manager = await _context.Manager.FindAsync(id);
-            _context.Manager.Remove(manager);
+            var taskEntry = await _context.TaskEntry.FindAsync(id);
+            _context.TaskEntry.Remove(taskEntry);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ManagerExists(int id)
+        private bool TaskEntryExists(int id)
         {
-            return _context.Manager.Any(e => e.Id == id);
+            return _context.TaskEntry.Any(e => e.Id == id);
         }
-
-        //public ApplicationUser GetLoggedInUser()
-        //{
-        //    var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    Manager manager = _context.Manager.Where(m => m.ApplicationUserId == currentUserId).FirstOrDefault();
-        //    return manager;
-        //}
     }
 }
