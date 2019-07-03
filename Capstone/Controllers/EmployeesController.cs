@@ -12,7 +12,7 @@ using System.Security.Claims;
 
 namespace Capstone.Controllers
 {
-    [Authorize(Roles = "Employee")]
+    [Authorize(Roles = "Employee, Manager")]
     public class EmployeesController : Controller
     {
         private readonly ApplicationDbContext _context;
