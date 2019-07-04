@@ -156,6 +156,11 @@ namespace Capstone.Controllers
             return _context.Manager.Any(e => e.Id == id);
         }
 
+        //public Employee GetListOfEmployees(Employee employee)
+        //{
+        //    return ;
+        //}
+
         //public ApplicationUser GetLoggedInUser()
         //{
         //    var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);

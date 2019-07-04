@@ -12,6 +12,7 @@ namespace Domain
         [Key]
         public int Id { get; set; }
         public string Memo { get; set; }
+        public int LogDate { get; set; }
         [ForeignKey("Employee")]
         public int? EmployeeId { get; set; }
         public Employee Employee { get; set; }
