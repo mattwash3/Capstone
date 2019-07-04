@@ -155,9 +155,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<int?>("EmployeeId");
 
-                    b.Property<int>("LogDate");
+                    b.Property<string>("Entry");
 
-                    b.Property<string>("Memo");
+                    b.Property<int>("LogDate");
 
                     b.HasKey("Id");
 

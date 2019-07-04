@@ -72,7 +72,7 @@ namespace Capstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] TaskLog taskLog)
+        public async Task<IActionResult> Create([Bind("Id,Memo,LogDate")] TaskLog taskLog)
         {
             if (ModelState.IsValid)
             {
@@ -104,7 +104,7 @@ namespace Capstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] TaskLog taskLog)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Memo,LogDate")] TaskLog taskLog)
         {
             if (id != taskLog.Id)
             {

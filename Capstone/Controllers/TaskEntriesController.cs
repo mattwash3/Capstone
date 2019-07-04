@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Domain;
+using System.Security.Claims;
 
 namespace Capstone.Controllers
 {
@@ -56,7 +57,7 @@ namespace Capstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TaskType,TaskLogId")] TaskEntry taskEntry)
+        public async Task<IActionResult> Create([Bind("Id,TaskType,Comment,TaskTime,TaskLogId")] TaskEntry taskEntry)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +91,7 @@ namespace Capstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TaskType,TaskLogId")] TaskEntry taskEntry)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TaskType,Comment,TaskTime,TaskLogId")] TaskEntry taskEntry)
         {
             if (id != taskEntry.Id)
             {
@@ -154,6 +155,45 @@ namespace Capstone.Controllers
         private bool TaskEntryExists(int id)
         {
             return _context.TaskEntry.Any(e => e.Id == id);
+        }
+
+        public IActionResult CreateTaskEntry()
+        {
+            return View();
+        }
+
+        [HttpPost, ActionName("CreateTaskEntry")]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateTaskEntry([Bind("Id,TaskType,Comment,TaskTime")] TaskEntry taskEntry)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                Employee employee = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
+                //TaskEntry taskEntry = new TaskEntry();
+                //employee.ApplicationUserId = userId;
+                _context.Add(taskEntry);
+                //await 
+                _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(taskEntry);
+            //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //Employee employee = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
+            //TaskEntry taskEntry = new TaskEntry();
+            //return View(taskEntry);
+        }
+
+        public ActionResult SubmitTaskEntry([Bind("TaskType")] TaskEntry taskEntry)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Employee employee = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
+            taskEntry.Id = employee.Id;
+            _context.TaskEntry.Add(taskEntry);
+            _context.SaveChanges();
+            TaskLog taskLog = new TaskLog();
+            taskLog.Entry = taskEntry.TaskType;
+            return RedirectToAction("CreateTaskEntry");
         }
     }
 }

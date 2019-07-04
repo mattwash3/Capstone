@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190702200754_UserRolesMigration")]
-    partial class UserRolesMigration
+    [Migration("20190704070503_TaskLogUpdate")]
+    partial class TaskLogUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -134,7 +134,11 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Comment");
+
                     b.Property<int>("TaskLogId");
+
+                    b.Property<int>("TaskTime");
 
                     b.Property<string>("TaskType");
 
@@ -153,7 +157,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<int?>("EmployeeId");
 
-                    b.Property<string>("Memo");
+                    b.Property<string>("Entry");
+
+                    b.Property<int>("LogDate");
 
                     b.HasKey("Id");
 

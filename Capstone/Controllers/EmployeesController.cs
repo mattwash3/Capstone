@@ -154,25 +154,5 @@ namespace Capstone.Controllers
         {
             return _context.Employee.Any(e => e.Id == id);
         }
-
-        public ActionResult TaskEntry() 
-        {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Employee employee = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
-            TaskEntry taskEntry = new TaskEntry();
-            return View(taskEntry);
-        }
-
-        public ActionResult SubmitTaskEntry([Bind("TaskType")] TaskEntry taskEntry)
-        {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Employee employee = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
-            taskEntry.Id = employee.Id;
-            _context.TaskEntry.Add(taskEntry);
-            _context.SaveChanges();
-            TaskLog taskLog = new TaskLog();
-            taskLog.Memo = taskEntry.TaskType;
-            return RedirectToAction("TaskEntry");
-        }
     }
 }

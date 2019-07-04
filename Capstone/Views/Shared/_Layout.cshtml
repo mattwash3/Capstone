@@ -31,6 +31,10 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-area="" asp-controller="TaskLog" asp-action="Index">Task Log</a></li>
+                    <li><a asp-area="" asp-controller="TaskEntries" asp-action="Create">Task Entry</a></li>
+                    <li><a asp-area="" asp-controller="" asp-action="Index">Task Chart</a></li>
+                    <li><a asp-area="" asp-controller="" asp-action="Index">Log History</a></li>
                 </ul>
                 <partial name="_LoginPartial" />
             </div>
@@ -41,7 +45,7 @@
 
     <div class="container body-content">
         @RenderBody()
-        <hr />
+        
     </div>
 
     <environment include="Development">

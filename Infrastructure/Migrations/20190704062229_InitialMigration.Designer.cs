@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190701202105_SecondMigration")]
-    partial class SecondMigration
+    [Migration("20190704062229_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -52,7 +52,7 @@ namespace Infrastructure.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<string>("Role");
+                    b.Property<string>("RoleString");
 
                     b.Property<string>("SecurityStamp");
 
@@ -128,6 +128,27 @@ namespace Infrastructure.Migrations
                     b.ToTable("Manager");
                 });
 
+            modelBuilder.Entity("Domain.TaskEntry", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comment");
+
+                    b.Property<int>("TaskLogId");
+
+                    b.Property<int>("TaskTime");
+
+                    b.Property<string>("TaskType");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaskLogId");
+
+                    b.ToTable("TaskEntry");
+                });
+
             modelBuilder.Entity("Domain.TaskLog", b =>
                 {
                     b.Property<int>("Id")
@@ -135,6 +156,10 @@ namespace Infrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("EmployeeId");
+
+                    b.Property<int>("LogDate");
+
+                    b.Property<string>("Memo");
 
                     b.HasKey("Id");
 
@@ -287,6 +312,14 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("Domain.TaskEntry", b =>
+                {
+                    b.HasOne("Domain.TaskLog", "TaskLog")
+                        .WithMany()
+                        .HasForeignKey("TaskLogId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Domain.TaskLog", b =>

@@ -1,7 +1,7 @@
 ﻿body {
     padding: 0px 0 20px 0;
-    /*background: linear-gradient(to bottom, #ffffff 0%, #99ff99 98%);*/
-    background-image: url(/images/black-blue-gradient-linear-1920x1080-c2-87cefa-000000-a-195-f-14.jpg);
+    background: linear-gradient(to bottom, #ffffff 0%, #99ff99 98%);
+    /*background-image: url(/images/black-blue-gradient-linear-1920x1080-c2-87cefa-000000-a-195-f-14.jpg);*/
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -21,6 +21,6 @@ h1 {
     text-align: center;
     font-size: 5.2em;
     margin: 5px;
-    color: #EEE;
+    color: #000000;
 }
 
