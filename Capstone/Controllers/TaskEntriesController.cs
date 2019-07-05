@@ -13,6 +13,7 @@ namespace Capstone.Controllers
     public class TaskEntriesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly TaskLog _taskLog;
 
         public TaskEntriesController(ApplicationDbContext context)
         {
@@ -63,6 +64,7 @@ namespace Capstone.Controllers
             {
                 _context.Add(taskEntry);
                 await _context.SaveChangesAsync();
+                //await _taskLog.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TaskLogId"] = new SelectList(_context.TaskLog, "Id", "Id", taskEntry.TaskLogId);
