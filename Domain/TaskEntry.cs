@@ -12,7 +12,7 @@ namespace Domain
         public int Id { get; set; }
         public string TaskType { get; set; }
         public string Comment { get; set; }
-        public int TaskTime { get; set; }
+        public double TaskTime { get; set; }
         [ForeignKey("TaskLog")]
         public int TaskLogId { get; set; }
         public TaskLog TaskLog { get; set; }

@@ -6,7 +6,7 @@
     <title>@ViewData["Title"] - Stand Up</title>
 
     <environment include="Development">
-        @*<link href="https://fonts.googleapis.com/css?family=Dosis:400,700" rel="stylesheet" />*@
+        <link href="https://fonts.googleapis.com/css?family=Dosis:400,700" rel="stylesheet" />
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
@@ -18,7 +18,7 @@
     </environment>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
-<body>
+<body id="hero" class="hero-overlay">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -40,6 +40,9 @@
             </div>
         </div>
     </nav>
+
+
+
 
     <partial name="_CookieConsentPartial" />
 

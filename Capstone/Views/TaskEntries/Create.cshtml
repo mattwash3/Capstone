@@ -5,119 +5,109 @@
 }
 
 
-    <html>
-    <head>
-        <style>
-            #output {
-                width: 120px;
-                height: 25px;
-                background-color: azure;
-                border: 1px solid #999;
-            }
-        </style>
-        <script>
-            var time = 0;
-            var secs = 0;
-            var running = 0;
 
-            function startPause() {
-                if (running == 0) {
-                    running = 1;
-                    increment();
-                    document.getElementById("startPause").innerHTML = "Pause";
-                }
-                else {
-                    running = 0;
-                    document.getElementById("startPause").innerHTML = "Resume";
-                }
-            }
-            function reset() {
-                running = 0;
-                time = 0;
-                secs = 0;
-                document.getElementById("startPause").innerHTML = "Start";
-            }
-            function increment() {
-                if (running == 1) {
-                    setTimeout(function () {
-                        time++;
-                        var mins = Math.floor(time / 10 / 60);
-                        var secs = Math.floor(time/10 % 60);
-                        var tenths = time % 10;
-                        if (mins < 10) {
-                            mins = "0" + mins;
-                        }
-                        if (secs < 10) {
-                            secs = "0" + secs;
-                        }
-                        document.getElementById("output").innerHTML = mins + ":" + secs + ":" + "0" + tenths;
-                        increment();
-                    }, 100);
-                }
-            }
-        </script>
-    </head>
-    <body>
-        <h2>Create</h2>
+<head>
+    <style>
+        #output {
+            width: 120px;
+            height: 25px;
+            background-color: azure;
+            border: 1px solid #999;
+        }
+    </style>
 
-        <h4>Task Entry</h4>
-        <hr />
-        <fieldset>
-            <p>Task Type:</p>
-            <p><label class="choice"> <input type="radio" name="tasktype" required value="call">Call</label></p>
-            <p><label class="choice"> <input type="radio" name="tasktype" required value="email">Email</label></p>
-            <p><label class="choice"> <input type="radio" name="tasktype" required value="meeting">Meeting</label></p>
-            <p><label class="choice"> <input type="radio" name="tasktype" required value="other">Other</label><br>
+</head>
+<br><br><br>
+<h4>Task Entry</h4>
+<hr />
+<form asp-action="Create" asp-controller="TaskEntries" method="post">
+    <fieldset>
+        @*<p>Task Type:</p>*@
+        <label asp-for="TaskType" class="control-label">Task Type:</label>
+        <p><label class="choice"> <input type="radio" name="tasktype" required value="call">Call</label></p>
+        <p><label class="choice"> <input type="radio" name="tasktype" required value="email">Email</label></p>
+        <p><label class="choice"> <input type="radio" name="tasktype" required value="meeting">Meeting</label></p>
+        <p>
+            <label class="choice"> <input type="radio" name="tasktype" required value="other">Other</label><br>
             <textarea name="comments" id="comments" style="font-family:sans-serif;font-size:1.0em;"></textarea>
-            </p>
-        </fieldset>
-        <div class="row">
-            <div class="col-md-4">
-                <form asp-action="Create">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    @*<div class="form-group">
-                        <label asp-for="TaskType" class="control-label">Task Type:</label>
-                        <input asp-for="TaskType" class="form-control" />
-                        <span asp-validation-for="TaskType" class="text-danger"></span>
-                    </div>*@
-                    <div action="/html/tags/html_form_tag_action.cfm" method="post">
-                        <div>
-                            <p>Task Notes:</p>
-                            <textarea name="comments" id="comments" style="font-family:sans-serif;font-size:1.0em;"></textarea>
-                        </div>
-                        @*<input type="submit" value="Submit">*@
-                    </div>
-                    @*<div class="form-group">
-                        <label asp-for="Comment" class="control-label"></label>
-                        <input asp-for="Comment" class="form-control" />
-                        <span asp-validation-for="Comment" class="text-danger"></span>
-                    </div>*@
-                    <div class="form-group">
-                        <label asp-for="TaskTime" class="control-label">Task Time:</label>
-                        <input asp-for="TaskTime" class="form-control" />
-                        <span asp-validation-for="TaskTime" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-default" />
-                    </div>
-                </form>
+        </p>
+    </fieldset>
+    <div class="row">
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div action="/html/tags/html_form_tag_action.cfm" method="post"></div>
+            <div>
+                <p>Task Notes:</p>
+                <textarea name="comments" id="comments" style="font-family:sans-serif;font-size:1.0em;"></textarea>
+                <span asp-validation-for="Comment" class="text-danger"></span>
             </div>
         </div>
-        <br>
+    </div>
 
+    <div class="form-group">
         <p>Task Time Tracker</p>
         <p id="output"></p>
-        <div id="controls">
-            <button id="startPause" onclick="startPause()">Start</button>
-            <button onclick="reset()">Reset</button>
-        </div>
+        <input asp-for="TaskTime" class="form-control" id="taskTime" type="hidden" />
+        <span asp-validation-for="TaskTime" class="text-danger"></span>
+    </div>
+    <div id="controls">
+        <input type="button" id="startPauseButton" onclick="startPause()" value="Start" />
+        <input type="button" id="resetButton" onclick="resetStopWatch()" value="Reset" />
+    </div>
+    <br>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-default" />
+    </div>
+</form>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<script type="text/javascript">
+    var time = 0;
+    var secs = 0;
+    var running = 0;
 
-        <br>
-        <div>
-            <a asp-action="Index">Back to List</a>
-        </div>
-    </body>
-    </html>
+    function startPause() {
+        if (running == 0) {
+            running = 1;
+            increment();
+            document.getElementById("startPauseButton").value = "Pause";
+        }
+        else {
+            running = 0;
+            document.getElementById("startPauseButton").value = "Resume";
+        }
+    }
+
+    function resetStopWatch() {
+        running = 0;
+        time = 0;
+        secs = 0;
+        document.getElementById("startPauseButton").value = "Start";
+        document.getElementById("output").innerHTML = "";
+        document.getElementById("taskTime").value = 0;
+    }
+
+    function increment() {
+        if (running == 1) {
+            setTimeout(function () {
+                time++;
+                var mins = Math.floor(time / 10 / 60);
+                var secs = Math.floor(time / 10 % 60);
+                var tenths = time % 10;
+                if (mins < 10) {
+                    mins = "0" + mins;
+                }
+                if (secs < 10) {
+                    secs = "0" + secs;
+                }
+                document.getElementById("output").innerHTML = mins + ":" + secs + ":" + "0" + tenths;
+                document.getElementById("taskTime").value = mins;
+                increment();
+            }, 100);
+        }
+    }
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

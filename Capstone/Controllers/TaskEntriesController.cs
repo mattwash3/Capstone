@@ -49,6 +49,8 @@ namespace Capstone.Controllers
         // GET: TaskEntries/Create
         public IActionResult Create()
         {
+            //ViewData["EmployeeId"] = 1;
+            //ViewData["TaskLogId"] = 1;
             ViewData["TaskLogId"] = new SelectList(_context.TaskLog, "Id", "Id");
             return View();
         }
@@ -57,11 +59,13 @@ namespace Capstone.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,TaskType,Comment,TaskTime,TaskLogId")] TaskEntry taskEntry)
         {
             if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var employee = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
+                taskEntry.TaskLogId = employee.Id;
                 _context.Add(taskEntry);
                 await _context.SaveChangesAsync();
                 //await _taskLog.SaveChangesAsync();
@@ -166,7 +170,7 @@ namespace Capstone.Controllers
 
         [HttpPost, ActionName("CreateTaskEntry")]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateTaskEntry([Bind("Id,TaskType,Comment,TaskTime")] TaskEntry taskEntry)
+        public ActionResult CreateTaskEntry([Bind("Id,TaskType,Comment,TaskTime,TaskLogId")] TaskEntry taskEntry)
         {
             if (ModelState.IsValid)
             {
@@ -186,7 +190,7 @@ namespace Capstone.Controllers
             //return View(taskEntry);
         }
 
-        public ActionResult SubmitTaskEntry([Bind("TaskType")] TaskEntry taskEntry)
+        public ActionResult SubmitTaskEntry([Bind("Id,TaskType,Comment,TaskTime,TaskLogId")] TaskEntry taskEntry)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             Employee employee = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
@@ -194,7 +198,7 @@ namespace Capstone.Controllers
             _context.TaskEntry.Add(taskEntry);
             _context.SaveChanges();
             TaskLog taskLog = new TaskLog();
-            taskLog.Entry = taskEntry.TaskType;
+            //taskLog.Entry = taskEntry.TaskType;
             return RedirectToAction("CreateTaskEntry");
         }
     }

@@ -12,9 +12,9 @@ namespace Domain
         [Key]
         public int Id { get; set; }
         public List<TaskEntry> Entry { get; set; }
-        public int LogDate { get; set; }
+        public DateTime LogDate { get; set; }
         [ForeignKey("Employee")]
-        public int? EmployeeId { get; set; }
+        public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
     }
 }

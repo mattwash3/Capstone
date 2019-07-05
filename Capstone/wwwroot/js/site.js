@@ -61,11 +61,10 @@ function searchTaskLog() {
 }
 
 function displayPieChartData() {
-    blah blah
         .ajax({
             method: GET
-                  ....
-                success: function(data) {
+                  // ....
+                .success: function(data) {
                     var chart = new CanvasJS.Chart("chartContainer", {
                         animationEnabled: true,
                         title: {
@@ -90,46 +89,46 @@ function displayPieChartData() {
                 }
         }
 
-(function () {
-    "use strict";
-    var secondsLabel = document.getElementById('seconds'), minutesLabel = document.getElementById('minutes'), hoursLabel = document
-        .getElementById('hours'), totalSeconds = 0, startButton = document.getElementById('start'), stopButton = document.getElementById('stop'), resetButton = document
-            .getElementById('reset'), timer = null;
+//(function () {
+//    "use strict";
+//    var secondsLabel = document.getElementById('seconds'), minutesLabel = document.getElementById('minutes'), hoursLabel = document
+//        .getElementById('hours'), totalSeconds = 0, startButton = document.getElementById('start'), stopButton = document.getElementById('stop'), resetButton = document
+//            .getElementById('reset'), timer = null;
 
-    startButton.onclick = function () {
-        if (!timer) {
-            timer = setInterval(setTime, 1000);
-        }
-    };
+//    startButton.onclick = function () {
+//        if (!timer) {
+//            timer = setInterval(setTime, 1000);
+//        }
+//    };
 
-    stopButton.onclick = function () {
-        if (timer) {
-            clearInterval(timer);
-            timer = null;
-        }
-    };
+//    stopButton.onclick = function () {
+//        if (timer) {
+//            clearInterval(timer);
+//            timer = null;
+//        }
+//    };
 
-    resetButton.onclick = function () {
-        if (timer) {
-            totalSeconds = 0;
-            stop();
-        }
-    };
+//    resetButton.onclick = function () {
+//        if (timer) {
+//            totalSeconds = 0;
+//            stop();
+//        }
+//    };
 
-    function setTime() {
-        totalSeconds++;
-        secondsLabel.innerHTML = pad(totalSeconds % 60);
-        minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
-        hoursLabel.innerHTML = pad(parseInt(totalSeconds / 3600))
-    }
+//    function setTime() {
+//        totalSeconds++;
+//        secondsLabel.innerHTML = pad(totalSeconds % 60);
+//        minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+//        hoursLabel.innerHTML = pad(parseInt(totalSeconds / 3600))
+//    }
 
-    function pad(val) {
-        var valString = val + "";
-        if (valString.length < 2) {
-            return "0" + valString;
-        } else {
-            return valString;
-        }
-    }
+//    function pad(val) {
+//        var valString = val + "";
+//        if (valString.length < 2) {
+//            return "0" + valString;
+//        } else {
+//            return valString;
+//        }
+//    }
 
-});
+//});

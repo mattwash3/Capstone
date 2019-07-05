@@ -136,7 +136,7 @@ namespace Infrastructure.Migrations
 
                     b.Property<int>("TaskLogId");
 
-                    b.Property<int>("TaskTime");
+                    b.Property<double>("TaskTime");
 
                     b.Property<string>("TaskType");
 
@@ -153,11 +153,9 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("EmployeeId");
+                    b.Property<int>("EmployeeId");
 
-                    b.Property<string>("Entry");
-
-                    b.Property<int>("LogDate");
+                    b.Property<DateTime>("LogDate");
 
                     b.HasKey("Id");
 
@@ -315,7 +313,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.TaskEntry", b =>
                 {
                     b.HasOne("Domain.TaskLog", "TaskLog")
-                        .WithMany()
+                        .WithMany("Entry")
                         .HasForeignKey("TaskLogId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -324,7 +322,8 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Domain.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("EmployeeId");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
