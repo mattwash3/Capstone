@@ -213,8 +213,9 @@ namespace Infrastructure.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    TaskEntry = table.Column<string>(nullable: true),
                     LogDate = table.Column<DateTime>(nullable: false),
-                    EmployeeId = table.Column<int>(nullable: true)
+                    EmployeeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -224,7 +225,7 @@ namespace Infrastructure.Migrations
                         column: x => x.EmployeeId,
                         principalTable: "Employee",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -235,7 +236,7 @@ namespace Infrastructure.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     TaskType = table.Column<string>(nullable: true),
                     Comment = table.Column<string>(nullable: true),
-                    TaskTime = table.Column<int>(nullable: false),
+                    TaskTime = table.Column<double>(nullable: false),
                     TaskLogId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

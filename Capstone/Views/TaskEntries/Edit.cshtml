@@ -17,6 +17,16 @@
                 <span asp-validation-for="TaskType" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Comment" class="control-label"></label>
+                <input asp-for="Comment" class="form-control" />
+                <span asp-validation-for="Comment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskTime" class="control-label"></label>
+                <input asp-for="TaskTime" class="form-control" />
+                <span asp-validation-for="TaskTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="TaskLogId" class="control-label"></label>
                 <select asp-for="TaskLogId" class="form-control" asp-items="ViewBag.TaskLogId"></select>
                 <span asp-validation-for="TaskLogId" class="text-danger"></span>

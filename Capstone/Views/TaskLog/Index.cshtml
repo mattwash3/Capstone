@@ -11,7 +11,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Entry)
+                @Html.DisplayNameFor(model => model.TaskEntry)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LogDate)
@@ -26,7 +26,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Entry)
+                @Html.DisplayFor(modelItem => item.TaskEntry)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LogDate)

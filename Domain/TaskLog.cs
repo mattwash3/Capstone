@@ -11,7 +11,7 @@ namespace Domain
     {
         [Key]
         public int Id { get; set; }
-        public List<TaskEntry> Entry { get; set; }
+        public string TaskEntry { get; set; }
         public DateTime LogDate { get; set; }
         [ForeignKey("Employee")]
         public int EmployeeId { get; set; }

@@ -64,6 +64,7 @@ namespace Capstone.Controllers
         // GET: TaskLogs/Create
         public IActionResult Create()
         {
+            ViewData["EmployeeId"] = new SelectList(_context.Employee, "Id", "Id");
             return View();
         }
 
@@ -76,10 +77,14 @@ namespace Capstone.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var employee = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
+                taskLog.EmployeeId = employee.Id;
                 _context.Add(taskLog);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["EmployeeId"] = new SelectList(_context.Employee, "Id", "Id");
             return View(taskLog);
         }
 

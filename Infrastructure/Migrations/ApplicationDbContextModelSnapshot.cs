@@ -157,6 +157,8 @@ namespace Infrastructure.Migrations
 
                     b.Property<DateTime>("LogDate");
 
+                    b.Property<string>("TaskEntry");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EmployeeId");
@@ -313,7 +315,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.TaskEntry", b =>
                 {
                     b.HasOne("Domain.TaskLog", "TaskLog")
-                        .WithMany("Entry")
+                        .WithMany()
                         .HasForeignKey("TaskLogId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
