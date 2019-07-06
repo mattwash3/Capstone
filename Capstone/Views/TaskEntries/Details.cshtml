@@ -4,37 +4,40 @@
     ViewData["Title"] = "Details";
 }
 
-<div>
-    <h4>TaskEntry</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.TaskType)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TaskType)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Comment)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Comment)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.TaskTime)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TaskTime)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.TaskLog.Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TaskLog.Id)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<h4>Task Entry</h4>
+<hr />
+<section>
+    <div class="box">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.TaskType)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.TaskType)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Comment)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Comment)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.TaskTime)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.TaskTime)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.TaskLog.Id)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.TaskLog.Id)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+    </div>
+</section>

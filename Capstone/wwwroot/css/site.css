@@ -1,12 +1,14 @@
 ﻿body {
     margin: 0;
-    /*padding: 0px 0 20px 0;
-    background: linear-gradient(to bottom, #ffffff 0%, #99ff99 98%);
-    background-image: url(/images/black-blue-gradient-linear-1920x1080-c2-87cefa-000000-a-195-f-14.jpg);
+    padding: 0px 0 20px 0;
+    background-image: url("../images/architectural-design-architecture-art-museum-236449.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-position: center;*/
+    background-position: center;
+    z-index: -10;
+    text-align: center;
+    text-emphasis-color: azure;
 }
 
 .body-content {
@@ -41,8 +43,11 @@ h4 {
 }
 
 /*#hero {
-    background: url('../images/architectural-design-architecture-art-museum-236449.jpg');
+    background: url("../images/architectural-design-architecture-art-museum-236449.jpg");
     background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
     background-position: center center;
     background-attachment: fixed;
     position: relative;
@@ -73,3 +78,35 @@ h4 {
     position: absolute;
     z-index: -5;
 }*/
+
+
+
+
+
+/*body{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}*/
+
+/*section{
+    padding: 0 100px;
+    
+}*/
+
+#output {
+    width: 120px;
+    height: 25px;
+    background-color: white;
+    border: 1px solid #999;
+    float: inherit;
+}
+
+.box{
+    position: relative;
+    max-width: 600px;
+    padding: 10px;
+    background: rgba(255,255,255,.6);
+    box-shadow: 0 5px 15px rgba(0,0,0,.8);
+    align-content: center;
+}

@@ -69,7 +69,6 @@ namespace Capstone.Controllers
                 taskEntry.TaskLogId = employee.Id;
                 _context.Add(taskEntry);
                 await _context.SaveChangesAsync();
-                //await _taskLog.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TaskLogId"] = new SelectList(_context.TaskLog, "Id", "Id", taskEntry.TaskLogId);
