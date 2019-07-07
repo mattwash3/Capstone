@@ -49,8 +49,7 @@ namespace Capstone.Controllers
         // GET: TaskEntries/Create
         public IActionResult Create()
         {
-            //ViewData["EmployeeId"] = 1;
-            //ViewData["TaskLogId"] = 1;
+
             ViewData["TaskLogId"] = new SelectList(_context.TaskLog, "Id", "Id");
             return View();
         }
@@ -66,7 +65,7 @@ namespace Capstone.Controllers
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var employee = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
-                taskEntry.TaskLogId = employee.Id;
+                taskEntry.Id = _taskLog.Id;
                 _context.Add(taskEntry);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

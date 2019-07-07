@@ -17,20 +17,17 @@
                 <p><label class="choice"> <input type="radio" name="tasktype" required value="call">Call</label></p>
                 <p><label class="choice"> <input type="radio" name="tasktype" required value="email">Email</label></p>
                 <p><label class="choice"> <input type="radio" name="tasktype" required value="meeting">Meeting</label></p>
-                <p>
-                    <label class="choice"> <input type="radio" name="tasktype" required value="other">Other</label><br>
-                    <textarea name="comments" id="comments" style="font-family:sans-serif;font-size:1.0em;"></textarea>
-                </p>
+                <p><label class="choice"> <input type="radio" name="tasktype" required value="other">Other</label></p>
             </fieldset>
             <div class="row">
                 <div class="col-md-4">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div action="/html/tags/html_form_tag_action.cfm" method="post"></div>
-                    <div>
+                    @*<div>
                         <p>Task Notes:</p>
                         <textarea name="comments" id="comments" style="font-family:sans-serif;font-size:1.0em;"></textarea>
                         <span asp-validation-for="Comment" class="text-danger"></span>
-                    </div>
+                    </div>*@
                 </div>
             </div>
             <div class="form-group">

@@ -40,6 +40,7 @@ namespace Capstone.Controllers
         // GET: TaskLogs
         public async Task<IActionResult> Index()
         {
+            IList<TaskEntry> taskEntries = _context.TaskEntry.Include(t => t.TaskLog).ToList();
             return View(await _context.TaskLog.ToListAsync());
         }
 
@@ -51,14 +52,21 @@ namespace Capstone.Controllers
                 return NotFound();
             }
 
-            var taskLog = await _context.TaskLog
-                .FirstOrDefaultAsync(m => m.Id == id);
+            TaskLog taskLog = _context.TaskLog
+            //var taskLog = await _context.TaskLog
+                .Include(t => t.TaskEntries)
+                .Include(e => e.Employee)
+                .Single(t => t.Id == id);
+            //.FirstOrDefaultAsync(m => m.Id == id);
+            ViewBag.title = "Entries in Task Log:" + taskLog.Id;
+
             if (taskLog == null)
             {
                 return NotFound();
             }
 
             return View(taskLog);
+            //return View("Index", taskLog.TaskEntries);
         }
 
         // GET: TaskLogs/Create
@@ -73,7 +81,7 @@ namespace Capstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EmployeeId,Entry,LogDate")] TaskLog taskLog)
+        public async Task<IActionResult> Create([Bind("Id,TaskEntries,LogDate,EmployeeId")] TaskLog taskLog)
         {
             if (ModelState.IsValid)
             {
@@ -109,7 +117,7 @@ namespace Capstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EmployeeId,Entry,LogDate")] TaskLog taskLog)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TaskEntries,LogDate,EmployeeId")] TaskLog taskLog)
         {
             if (id != taskLog.Id)
             {
@@ -171,6 +179,17 @@ namespace Capstone.Controllers
         private bool TaskManagerExists(int id)
         {
             return _context.TaskLog.Any(e => e.Id == id);
+        }
+
+        private double GetTotalTaskTime()
+        {
+            TaskLog taskLog = new TaskLog();
+            double totalTaskTime = 0;
+            foreach (var taskEntry in taskLog.TaskEntries)
+            {
+                totalTaskTime += taskEntry.TaskTime;
+            }
+            return totalTaskTime;
         }
     }
 }

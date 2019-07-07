@@ -8,26 +8,68 @@
         <hr />
         <section>
             <div class="box">
-                <dl class="dl-horizontal">
-                    <dt>
-                        @Html.DisplayNameFor(model => model.TaskEntry)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.TaskEntry)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.LogDate)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.LogDate)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.EmployeeId)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.EmployeeId)
-                    </dd>
-                </dl>
+                <div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Task Type:
+                                </th>
+                                <th>
+                                    Task Time:
+                                </th>
+                                <th>
+                                    Comments:
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var taskEntry in Model.TaskEntries)
+                            {
+                            <tr>
+                                <td>
+                                    @taskEntry.TaskType
+                                </td>
+                                <td>
+                                    @taskEntry.TaskTime
+                                </td>
+                                <td>
+                                    @taskEntry.Comment
+                                </td>
+                            </tr> 
+                             }
+                                </tbody>
+                        </table>
+                    <dl class="dl-horizontal">
+                        @*<dd>
+                            @Html.DisplayFor(model => model.TaskEntries[0].Comment)
+                        </dd>*@
+                        <dt>
+                            @Html.DisplayNameFor(model => model.LogDate)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.LogDate)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Employee.FirstName)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Employee.FirstName)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Employee.LastName)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Employee.LastName)
+                        </dd>
+                        <dt>
+                            Total Task Time:
+                        </dt>
+                        @*<dd>
+                           @Html.GetTotalTaskTime()
+                        </dd>*@
+                    </dl>
             </div>
             <div>
                 <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
