@@ -21,22 +21,6 @@ namespace Capstone.Controllers
             _context = context;
         }
 
-        //public ApplicationUser GetLoggedInUser()
-        //{
-        //    var currentUser = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    Employee employee = _context.Employee.Where(e => e.ApplicationUserId == currentUser).FirstOrDefault();
-        //    Manager manager = _context.Manager.Where(m => m.ApplicationUserId == currentUser).FirstOrDefault();
-        //    return currentUser;
-        //}
-
-        //public Manager GetLoggedInUser()
-        //{
-        //    List<TaskLog> taskLog = new List<TaskLog>();
-        //    var currentUser = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    Manager manager = _context.Manager.Where(m => m.ApplicationUserId == currentUser).FirstOrDefault();
-        //    return manager;
-        //}
-
         // GET: TaskLogs
         public async Task<IActionResult> Index()
         {
@@ -66,7 +50,6 @@ namespace Capstone.Controllers
             }
 
             return View(taskLog);
-            //return View("Index", taskLog.TaskEntries);
         }
 
         // GET: TaskLogs/Create
@@ -181,7 +164,7 @@ namespace Capstone.Controllers
             return _context.TaskLog.Any(e => e.Id == id);
         }
 
-        private double GetTotalTaskTime()
+        private double GetTotalTaskTime(int id)
         {
             TaskLog taskLog = new TaskLog();
             double totalTaskTime = 0;

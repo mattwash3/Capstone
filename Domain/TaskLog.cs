@@ -18,20 +18,15 @@ namespace Domain
         [ForeignKey("Employee")]
         public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
-        public double GetTotalTaskTime()
-        {
-            TaskLog taskLog = new TaskLog();
-            double totalTaskTime = 0;
-            foreach (var taskEntry in taskLog.TaskEntries)
-            {
-                totalTaskTime += taskEntry.TaskTime;
-            }
-            return totalTaskTime;
-        }
+        //public double GetTotalTaskTime()
+        //{
+        //    TaskLog taskLog = new TaskLog();
+        //    double totalTaskTime = 0;
+        //    foreach (var taskEntry in taskLog.TaskEntries)
+        //    {
+        //        totalTaskTime += taskEntry.TaskTime;
+        //    }
+        //    return totalTaskTime;
+        //}
     }
 }
-
-//put new method into the class so you skip the input to the entries
-// .gettotaltasttime() in cshtml
-
-//model as input to the method if kept in cotroller 

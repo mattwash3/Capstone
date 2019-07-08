@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190706001055_InitialMigration")]
+    [Migration("20190708024043_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,8 +158,6 @@ namespace Infrastructure.Migrations
                     b.Property<int>("EmployeeId");
 
                     b.Property<DateTime>("LogDate");
-
-                    b.Property<string>("TaskEntry");
 
                     b.HasKey("Id");
 
@@ -317,7 +315,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.TaskEntry", b =>
                 {
                     b.HasOne("Domain.TaskLog", "TaskLog")
-                        .WithMany()
+                        .WithMany("TaskEntries")
                         .HasForeignKey("TaskLogId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

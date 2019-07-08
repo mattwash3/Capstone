@@ -213,7 +213,6 @@ namespace Infrastructure.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    TaskEntry = table.Column<string>(nullable: true),
                     LogDate = table.Column<DateTime>(nullable: false),
                     EmployeeId = table.Column<int>(nullable: false)
                 },

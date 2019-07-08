@@ -37,14 +37,22 @@
                                 <td>
                                     @taskEntry.Comment
                                 </td>
-                            </tr> 
-                             }
-                                </tbody>
-                        </table>
+                            </tr>
+                            @foreach (var TaskType in Model.TaskEntries)
+                            {
+                            <tr>
+                                <td>
+                                    @Model.TaskEntries.Sum(i => TaskType.TaskTime)
+                                </td>
+                            </tr>
+                            }                                 
+                                }
+                        </tbody>
+                    </table>
                     <dl class="dl-horizontal">
                         @*<dd>
-                            @Html.DisplayFor(model => model.TaskEntries[0].Comment)
-                        </dd>*@
+                    @Html.DisplayFor(model => model.TaskEntries[0].Comment)
+                </dd>*@
                         <dt>
                             @Html.DisplayNameFor(model => model.LogDate)
                         </dt>
@@ -66,14 +74,14 @@
                         <dt>
                             Total Task Time:
                         </dt>
-                        @*<dd>
-                           @Html.GetTotalTaskTime()
-                        </dd>*@
+                        <dd>
+                            @Model.TaskEntries.Sum(taskEntry => taskEntry.TaskTime)
+                        </dd>
                     </dl>
+                </div>
+                <div>
+                    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                    <a asp-action="Index">Back to List</a>
+                </div>
             </div>
-            <div>
-                <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-                <a asp-action="Index">Back to List</a>
-            </div>
-    </div>
 </section>

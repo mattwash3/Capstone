@@ -65,12 +65,14 @@ namespace Capstone.Controllers
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var employee = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
-                taskEntry.Id = _taskLog.Id;
+                //var taskLogId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                //var taskLog = _context.TaskLog.Where(t => t.EmployeeId == taskLogId).FirstOrDefault();
+                taskEntry.Id = 1;
                 _context.Add(taskEntry);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TaskLogId"] = new SelectList(_context.TaskLog, "Id", "Id", taskEntry.TaskLogId);
+            ViewData["TaskLogId"] = new SelectList(_context.TaskLog, "Id", "Id"/*, taskEntry.TaskLogId*/);
             return View(taskEntry);
         }
 
@@ -178,7 +180,6 @@ namespace Capstone.Controllers
                 //TaskEntry taskEntry = new TaskEntry();
                 //employee.ApplicationUserId = userId;
                 _context.Add(taskEntry);
-                //await 
                 _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
