@@ -15,9 +15,17 @@ namespace Domain
         [DataType(DataType.Date)]
         public DateTime LogDate { get; set; }
         public IList<TaskEntry> TaskEntries { get; set; }
-        [ForeignKey("Employee")]
-        public int EmployeeId { get; set; }
-        public Employee Employee { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public string ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
+        //[ForeignKey("Employee")]
+        //public int EmployeeId { get; set; }
+        //public Employee Employee { get; set; }
+        //[ForeignKey("Manager")]
+        //public int? Manager { get; set; }
+        //public Manager Manager { get; set; }
+        //change to application user
+
         //public double GetTotalTaskTime()
         //{
         //    TaskLog taskLog = new TaskLog();

@@ -12,13 +12,18 @@
     <div class="box">
         <form asp-action="Create" asp-controller="TaskEntries" method="post">
             <fieldset>
-
-                <label asp-for="TaskType" class="control-label">Task Type:</label>
+                <p>Task Type:</p>
+                @*<label asp-for="TaskType" class="control-label">Task Type:</label>*@
                 <p><label class="choice"> <input type="radio" name="tasktype" required value="call">Call</label></p>
                 <p><label class="choice"> <input type="radio" name="tasktype" required value="email">Email</label></p>
                 <p><label class="choice"> <input type="radio" name="tasktype" required value="meeting">Meeting</label></p>
                 <p><label class="choice"> <input type="radio" name="tasktype" required value="other">Other</label></p>
             </fieldset>
+            <div class="form-group">
+                <label asp-for="Comment" class="control-label"></label>
+                <input asp-for="Comment" class="form-control" />
+                <span asp-validation-for="Comment" class="text-danger"></span>
+            </div>
             <div class="row">
                 <div class="col-md-4">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -31,11 +36,11 @@
                 <input asp-for="TaskTime" class="form-control" id="taskTime" type="hidden" />
                 <span asp-validation-for="TaskTime" class="text-danger"></span>
             </div>
-                <div id="controls">
-                    <text id="output"></text>
-                    <input type="button" id="startPauseButton" onclick="startPause()" value="Start" />
-                    <input type="button" id="resetButton" onclick="resetStopWatch()" value="Reset" />
-                </div>
+            <div id="controls">
+                <text id="output"></text>
+                <input type="button" id="startPauseButton" onclick="startPause()" value="Start" />
+                <input type="button" id="resetButton" onclick="resetStopWatch()" value="Reset" />
+            </div>
             <br>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

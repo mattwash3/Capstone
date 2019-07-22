@@ -15,6 +15,7 @@ namespace Domain
         public DbSet<TaskLog> TaskLog { get; set; }
         public DbSet<TaskEntry> TaskEntry { get; set; }
         public DbSet<ApplicationRole> Role { get; set; }
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

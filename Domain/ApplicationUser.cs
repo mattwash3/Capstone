@@ -11,6 +11,8 @@ namespace Domain
 {
     public class ApplicationUser : IdentityUser
     {
+        //public int UserId { get; set; }
+        //userManager.AddClaim(id, new Claim("UserId", UserId));
         public string RoleString { get; set; }
         public ApplicationUser() : base() { }       
     }

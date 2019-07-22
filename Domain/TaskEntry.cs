@@ -16,5 +16,11 @@ namespace Domain
         [ForeignKey("TaskLog")]
         public int TaskLogId { get; set; }
         public TaskLog TaskLog { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public string ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
+        //[ForeignKey("Employee")]
+        //public int EmployeeId { get; set; }
+        //public Employee Employee { get; set; }
     }
 }

@@ -24,6 +24,8 @@ namespace Capstone.Controllers
         // GET: TaskLogs
         public async Task<IActionResult> Index()
         {
+            //var user = (System.Security.Claims.ClaimsIdentity)User.Identity;
+            //var userId = user.FindFirstValue("UserId");
             IList<TaskEntry> taskEntries = _context.TaskEntry.Include(t => t.TaskLog).ToList();
             return View(await _context.TaskLog.ToListAsync());
         }
@@ -37,11 +39,9 @@ namespace Capstone.Controllers
             }
 
             TaskLog taskLog = _context.TaskLog
-            //var taskLog = await _context.TaskLog
                 .Include(t => t.TaskEntries)
-                .Include(e => e.Employee)
+                .Include(e => e.ApplicationUser)
                 .Single(t => t.Id == id);
-            //.FirstOrDefaultAsync(m => m.Id == id);
             ViewBag.title = "Entries in Task Log:" + taskLog.Id;
 
             if (taskLog == null)
@@ -55,7 +55,7 @@ namespace Capstone.Controllers
         // GET: TaskLogs/Create
         public IActionResult Create()
         {
-            ViewData["EmployeeId"] = new SelectList(_context.Employee, "Id", "Id");
+            ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUser, "Id", "Id");
             return View();
         }
 
@@ -64,18 +64,30 @@ namespace Capstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TaskEntries,LogDate,EmployeeId")] TaskLog taskLog)
+        public async Task<IActionResult> Create([Bind("Id,TaskEntries,LogDate,ApplicationUserId")] TaskLog taskLog)
         {
             if (ModelState.IsValid)
             {
-                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var employee = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
-                taskLog.EmployeeId = employee.Id;
-                _context.Add(taskLog);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (User.IsInRole("Employee"))
+                {
+                    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var applicationUser = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
+                    taskLog.ApplicationUserId = userId;
+                    _context.Add(taskLog);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                if (User.IsInRole("Manager"))
+                {
+                    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var applicationUser = _context.Manager.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
+                    taskLog.ApplicationUserId = userId;
+                    _context.Add(taskLog);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employee, "Id", "Id");
+            ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUser, "Id", "Id");
             return View(taskLog);
         }
 
@@ -100,7 +112,7 @@ namespace Capstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TaskEntries,LogDate,EmployeeId")] TaskLog taskLog)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TaskEntries,LogDate,ApplicationUserId")] TaskLog taskLog)
         {
             if (id != taskLog.Id)
             {

@@ -38,14 +38,14 @@
                                     @taskEntry.Comment
                                 </td>
                             </tr>
-                            @foreach (var TaskType in Model.TaskEntries)
+                            @*@foreach (var TaskType in Model.TaskEntries)
                             {
                             <tr>
                                 <td>
                                     @Model.TaskEntries.Sum(i => TaskType.TaskTime)
                                 </td>
                             </tr>
-                            }                                 
+                            }*@                                 
                                 }
                         </tbody>
                     </table>
@@ -60,17 +60,17 @@
                             @Html.DisplayFor(model => model.LogDate)
                         </dd>
                         <dt>
-                            @Html.DisplayNameFor(model => model.Employee.FirstName)
+                            @Html.DisplayNameFor(model => model.ApplicationUser.UserName)
                         </dt>
                         <dd>
-                            @Html.DisplayFor(model => model.Employee.FirstName)
+                            @Html.DisplayFor(model => model.ApplicationUser.UserName)
                         </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Employee.LastName)
+                        @*<dt>
+                            @Html.DisplayNameFor(model => model.ApplicationUser.LastName)
                         </dt>
                         <dd>
-                            @Html.DisplayFor(model => model.Employee.LastName)
-                        </dd>
+                            @Html.DisplayFor(model => model.ApplicationUser.LastName)
+                        </dd>*@
                         <dt>
                             Total Task Time:
                         </dt>

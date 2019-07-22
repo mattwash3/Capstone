@@ -13,7 +13,6 @@ namespace Capstone.Controllers
     public class TaskEntriesController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly TaskLog _taskLog;
 
         public TaskEntriesController(ApplicationDbContext context)
         {
@@ -46,8 +45,8 @@ namespace Capstone.Controllers
             return View(taskEntry);
         }
 
-        // GET: TaskEntries/Create
-        public IActionResult Create()
+        // GET: TaskEntries/Create/5
+        public IActionResult Create(int id)
         {
 
             ViewData["TaskLogId"] = new SelectList(_context.TaskLog, "Id", "Id");
@@ -59,20 +58,32 @@ namespace Capstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TaskType,Comment,TaskTime,TaskLogId")] TaskEntry taskEntry)
+        public async Task<IActionResult> Create(int id, [Bind("Id,TaskType,Comment,TaskTime,TaskLogId")] TaskEntry taskEntry)
         {
             if (ModelState.IsValid)
             {
-                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var employee = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
-                //var taskLogId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                //var taskLog = _context.TaskLog.Where(t => t.EmployeeId == taskLogId).FirstOrDefault();
-                taskEntry.Id = 1;
-                _context.Add(taskEntry);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (User.IsInRole("Employee"))
+                {
+                    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var employee = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
+                    var taskLog = _context.TaskLog.Where(t => t.ApplicationUserId == userId).LastOrDefault();
+                    taskEntry.TaskLogId = taskLog.Id;
+                    _context.Add(taskEntry);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                if (User.IsInRole("Manager"))
+                {
+                    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var manager = _context.Manager.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
+                    var taskLog = _context.TaskLog.Where(t => t.ApplicationUserId == userId).LastOrDefault();
+                    taskEntry.TaskLogId = taskLog.Id;
+                    _context.Add(taskEntry);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            ViewData["TaskLogId"] = new SelectList(_context.TaskLog, "Id", "Id"/*, taskEntry.TaskLogId*/);
+            ViewData["TaskLogId"] = new SelectList(_context.TaskLog, "Id", "Id");
             return View(taskEntry);
         }
 
@@ -175,19 +186,24 @@ namespace Capstone.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                Employee employee = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
-                //TaskEntry taskEntry = new TaskEntry();
-                //employee.ApplicationUserId = userId;
-                _context.Add(taskEntry);
-                _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (User.IsInRole("Employee"))
+                {
+                    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var applicationUser = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
+                    _context.Add(taskEntry);
+                    _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                if (User.IsInRole("Manager"))
+                {
+                    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var applicationUser = _context.Manager.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
+                    _context.Add(taskEntry);
+                    _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(taskEntry);
-            //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            //Employee employee = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
-            //TaskEntry taskEntry = new TaskEntry();
-            //return View(taskEntry);
         }
 
         public ActionResult SubmitTaskEntry([Bind("Id,TaskType,Comment,TaskTime,TaskLogId")] TaskEntry taskEntry)

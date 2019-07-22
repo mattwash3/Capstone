@@ -1,0 +1,45 @@
+﻿@model Domain.TaskEntry
+
+@{
+    ViewData["Title"] = "CreateTaskEntry";
+}
+
+<h2>CreateTaskEntry</h2>
+
+<h4>TaskEntry</h4>
+<hr />
+<section>
+    <div class="box">
+        <form asp-action="CreateTaskEntry">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <fieldset>
+                <p>Task Type:</p>
+                @*<label asp-for="TaskType" class="control-label">Task Type:</label>*@
+                <p><label class="choice"> <input type="radio" name="tasktype" required value="call">Call</label></p>
+                <p><label class="choice"> <input type="radio" name="tasktype" required value="email">Email</label></p>
+                <p><label class="choice"> <input type="radio" name="tasktype" required value="meeting">Meeting</label></p>
+                <p><label class="choice"> <input type="radio" name="tasktype" required value="other">Other</label></p>
+            </fieldset>
+            <div class="form-group">
+                <label asp-for="Comment" class="control-label"></label>
+                <input asp-for="Comment" class="form-control" />
+                <span asp-validation-for="Comment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ApplicationUser.UserName" class="control-label"></label>
+                <select asp-for="ApplicationUser.UserName" class="form-control" asp-items="ViewBag.ApplicationUserId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</section>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
