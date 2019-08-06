@@ -214,7 +214,6 @@ namespace Capstone.Controllers
             _context.TaskEntry.Add(taskEntry);
             _context.SaveChanges();
             TaskLog taskLog = new TaskLog();
-            //taskLog.Entry = taskEntry.TaskType;
             return RedirectToAction("CreateTaskEntry");
         }
     }

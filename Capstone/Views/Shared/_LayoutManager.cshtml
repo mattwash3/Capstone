@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -32,22 +33,17 @@
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="TaskLog" asp-action="Index">Task Log</a></li>
-                    <li><a asp-area="" asp-controller="TaskEntries" asp-action="Index">Task Entry</a></li>
-                    <li><a asp-area="" asp-controller="" asp-action="">Log Chart</a></li>
-                    @*<li><a asp-area="" asp-controller="TaskEntries" asp-action="Index">Daily Tasks</a></li>*@
+                    <li><a asp-area="" asp-controller="TaskEntries" asp-action="Create">Task Entry</a></li>
+                    <li><a asp-area="" asp-controller="Employees" asp-action="Index">Employees</a></li>
+                    <li><a asp-area="" asp-controller="TaskEntries" asp-action="CreateTaskEntry">Daily Tasks</a></li>
                 </ul>
                 <partial name="_LoginPartial" />
             </div>
         </div>
     </nav>
-
-
-
-    @*<partial name="_CookieConsentPartial"/>*@
     <br><br><br>
     <div class="container body-content">
         @RenderBody()
-
     </div>
 
     <environment include="Development">

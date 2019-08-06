@@ -13,7 +13,6 @@
         <form asp-action="Create" asp-controller="TaskEntries" method="post">
             <fieldset>
                 <p>Task Type:</p>
-                @*<label asp-for="TaskType" class="control-label">Task Type:</label>*@
                 <p><label class="choice"> <input type="radio" name="tasktype" required value="call">Call</label></p>
                 <p><label class="choice"> <input type="radio" name="tasktype" required value="email">Email</label></p>
                 <p><label class="choice"> <input type="radio" name="tasktype" required value="meeting">Meeting</label></p>
