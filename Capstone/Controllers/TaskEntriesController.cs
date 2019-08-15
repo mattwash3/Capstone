@@ -48,7 +48,25 @@ namespace Capstone.Controllers
         // GET: TaskEntries/Create/5
         public IActionResult Create(int id)
         {
-
+            if (ModelState.IsValid)
+            {
+                if (User.IsInRole("Employee"))
+                {
+                    //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    //var employee = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
+                    //var taskLog = _context.TaskLog.Where(t => t.ApplicationUserId == userId).LastOrDefault();
+                    /*return */
+                    RedirectToAction(nameof(Create));
+                }
+                if (User.IsInRole("Manager"))
+                {
+                    //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    //var manager = _context.Manager.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
+                    //var taskLog = _context.TaskLog.Where(t => t.ApplicationUserId == userId).LastOrDefault();
+                    /*return */
+                    RedirectToAction(nameof(CreateTaskEntry));
+                }
+            }
             ViewData["TaskLogId"] = new SelectList(_context.TaskLog, "Id", "Id");
             return View();
         }

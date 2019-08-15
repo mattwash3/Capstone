@@ -24,10 +24,19 @@ namespace Capstone.Controllers
         // GET: TaskLogs
         public async Task<IActionResult> Index()
         {
-            //var user = (System.Security.Claims.ClaimsIdentity)User.Identity;
-            //var userId = user.FindFirstValue("UserId");
-            IList<TaskEntry> taskEntries = _context.TaskEntry.Include(t => t.TaskLog).ToList();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = _context.Users.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
+            var taskLogs = _context.TaskLog.Where(c => c.ApplicationUserId == userId);
             return View(await _context.TaskLog.ToListAsync());
+
+
+            //var user = (System.Security.Claims.ClaimsIdentity)User.Identity;
+            //var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            //var loggedIn = ;
+            //var dailyLog = _context.Manager.
+            //<TaskEntry> taskEntries = _context.TaskEntry.Include(t => t.TaskLog).Where(t=>t.ApplicationUserId ==      ToList();
+            //return View(await _context.TaskLog.ToListAsync());
         }
 
 
