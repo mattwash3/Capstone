@@ -1,0 +1,313 @@
+﻿@model Domain.TaskEntry
+
+<!DOCTYPE html>
+<html>
+<head>
+    @*<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width-device-width, initial-scale=1" />*@
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    @*<style>
+        #canvasDoughnut {
+            width: 400px;
+            height: 400px;
+            border: 1px solid #ddd;
+            padding: 1px;
+            border-radius: 4px;
+        }
+    </style>*@
+    @*<style>
+        #pieChart {
+            width: 400px;
+            height: 400px;
+            border: 1px solid #ddd;
+            padding: 1px;
+            border-radius: 4px;
+        }
+    </style>*@
+</head>
+<body>
+
+    @*<div id="chartcontainer">
+            <canvas id="pieChart"></canvas>
+        </div>*@
+
+    <div id="canvas-holder" style="width:40%">
+            <div class="chartjs-size-monitor">
+                <div class="chartjs-size-monitor-expand">
+                    <div class></div>
+                </div>
+                <div class="chartjs-size-monitor-shrink">
+                    <div class></div>
+                </div>
+            </div>
+            <canvas id="canvasDoughnut" style="display:block; height: 184px; width: 368px;" width="552" height="276" class="chartjs-render-monitor">
+                </div>
+        <button id="addData">Add Data</button>
+        <button id="dailyData">Daily Data</button>
+        <button id="weeklyData">Weekly Data</button>
+        <button id="monthlyData">Monthly Data</button>
+
+            <script type="text/javascript">
+
+                var colorNames = Object.keys(window.chartColors);
+                document.getElementById('addDataset').addEventListener('click', function () {
+                    var newDataset = {
+                        backgroundColor: [],
+                        data: [],
+                        label: 'New Dataset ' + config.data.datasets.length,
+                    };
+
+                    for (var index = 0; index < config.data.labels.length; ++index) {
+                        newDataset.data.push(randomScalingFactor());
+                        var colorName = colorNames[index % colorNames.length];
+                        var newColor = window.chartColors[colorName];
+                        newDataset.backgroundColor.push(newColor);
+                    }
+                    config.data.datasets.push(newDataset);
+                    window.canvasDoughnut.update();
+                });
+
+                document.getElementById('addData').addEventListener('click',
+                    function () {
+                        if (config.data.datasets.length > 0) {
+                            config.data.labels.push('data #' + config.data, labels.length);
+                            var colorName = colorNames[config.data.datasets[0].data.length % colorNames.length];
+                            var newColor = window.chartColors[colorName];
+                            config.data.datasets.forEach(function (dataset) {
+                                dataset.data.push(randomScalingFactor());
+                                dataset.backgroundColor.push(newColor);
+                            });
+                            window.canvasDoughnut.update();
+                        }
+                    });
+
+    <canvas id="myChart" width="400" height="400"></canvas>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+
+
+
+
+
+
+
+    @*var tasksArray = @Html.Raw(Json.Serialize(ViewBag.TASKS));
+        var taskTypes = @Html.Raw(Json.Serialize(ViewBag.TASKTYPES));
+
+
+        //Donut Chart
+
+
+        var ctx = document.getElementById("canvasDoughnut");
+        var data = {
+            labels: ["Call", "Email", "Meeting", "Other"],
+            datasets: [{
+                data: [39, 14, 40, 55],
+                backgroundColor: ["#455C73", "#9B59B6", "#BDC3C7", "#26B99A"],
+                hoverBackgroundColor: ["#34495E", "#B370CF", "#CFD4D8", "#36CAAB"]
+            }]
+        };
+
+        var canvasDoughnut = new Chart(ctx, {
+            type: 'doughnut',
+            tooltipFillColor: "rgba (51, 51, 51, 0.55)",
+            data: data
+        });
+
+
+        //Pie Chart
+
+
+        async function chartIt() {
+            await tasktypeAndTasktime();
+            var ctx = document.getElementById("pieChart");
+            var data = {
+                datasets: [{
+                    data: [],
+                    backgroundColor: ["#455C73", "#9B59B6", "#BDC3C7", "#26B99A"],
+                    label: ''
+                }],
+                labels: ["Call", "Email", "Meeting", "Other"]
+            };
+            var pieChart = new Chart(ctx, {
+                data: data,
+                type: 'pie',
+                options: {
+                    legend: false
+                }
+            });
+        }
+
+        const tasktypes = [];
+        const tasktimes = [];
+
+        async function tasktypeAndTasktime()
+        {
+            @foreach (var e in Model.TaskType)
+            {
+                <text>
+                var tasktype = @e;
+                tasktypes.push(tasktype);
+                </text>
+            }
+            @foreach (var i in Model.TaskTime.ToString())
+            {
+                <text>
+                var tasktime = @i;
+                tasktimes.push(tasktime);
+                </text>
+            }
+        }
+
+        chartIt();
+
+
+        </script>*@
+
+
+
+
+    @*<script>
+                var ctx = document.getElementById("doughnutChart");
+                var donutChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [],
+                        dataset: [{
+                            label:
+                        }]
+                    }
+                })
+
+
+
+
+
+
+
+
+
+            </script>
+
+        @*<div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Task Log Chart<small></small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Settings 1</a></li>
+                                    <li><a href="#">Settings 2</a></li>
+                                </ul>
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="canvasDoughnut"></canvas>
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>*@
+
+
+
+
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+@*<DOCTYPE html>
+    <html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+    </head>
+    <body>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <canvas id="chart" width="100" height="50"></canvas>*@
+
+        @*<script type="text/javascript">
+
+            const taskType = [];
+            const taskTime = [];
+            async function chartIt() {
+                await taskTypeAndTaskTime();
+                //await LogChart();
+                const ctx = document.getElementById('chart').getContext('2d');
+
+                const myDoughnutChart = new Chart(ctx, {
+                    type: 'donut',
+                    data: {
+                        labels:        ,
+                        datasets: [{
+                            label: ''
+                        }]
+                    }
+                    options: options
+                });
+            }*@

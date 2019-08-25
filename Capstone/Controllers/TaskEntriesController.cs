@@ -234,5 +234,71 @@ namespace Capstone.Controllers
             TaskLog taskLog = new TaskLog();
             return RedirectToAction("CreateTaskEntry");
         }
+
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> LogChartz()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var applicationUser = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
+            //var taskEntry = _context.TaskEntry.Where(e => e.TaskLogId == taskLog);
+            var taskEntry = _context.TaskEntry.Where(t => t.TaskLogId == applicationUser.Id);
+            var taskTypes = _context.TaskEntry.Select(y => y.TaskType).Distinct();
+            var taskTimes = _context.TaskEntry.Select(i => i.TaskTime).Distinct();
+            var taskEntryIds = new List<int>();
+            //foreach (var item in taskTypes)
+            //{
+            //    tasks.Add(list.Count(x => x.taskType == item));
+            //}
+
+            //var entry = taskTypes;
+            //ViewBag.TASKTYPES = taskTypes;
+            //ViewBag.TASKS = taskEntry.ToList();
+
+
+            ////////////////////////////////////////
+
+            var applicationDbContext = _context.TaskEntry.Include(t => t.TaskLog);
+            //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //var applicationUser = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
+            var chartEntries = new List<TaskEntry>();
+            var taskLog = _context.TaskEntry.Where(t => t.TaskLogId == applicationUser.Id);
+            //foreach (var t in taskLog)
+            //{
+            //    var taskType = _context.TaskEntry.Where(y => y.Id == );
+            //    if (taskType == taskType)
+            //    {
+                    
+            //    }
+            //}
+
+            //foreach (var t in taskEntryIds)
+            //{
+            //    var taskTime = _context.TaskEntry.Where(i => i.TaskTime == );
+            //    foreach (var i in taskTime)
+            //    {
+
+            //    }
+            //}
+            return View(/*await applicationDbContext.ToListAsync()*/);
+        }
+
+
+
+
+
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> AddItem(TaskEntry taskType)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
+        //    var successful = await _context.TaskEntry.AddAsync(taskType);
+        //    if (!successful)
+        //    {
+        //        return BadRequest("Could not add item.");
+        //    }
+        //    return RedirectToAction("Index");
+        //}
     }
 }

@@ -62,29 +62,39 @@ function searchTaskLog() {
 
 function displayPieChartData() {
         .ajax({
-            method: GET
-                  // ....
-                .success: function(data) {
-                    var chart = new CanvasJS.Chart("chartContainer", {
-                        animationEnabled: true,
-                        title: {
-                            text: "Desktop Search Engine Market Share - 2016"
-                        },
-                        data: [{
-                            type: "pie",
-                            startAngle: 240,
-                            yValueFormatString: "##0.00\"%\"",
-                            indexLabel: "{label} {y}",
-                            dataPoints: [
-                                { y: <% MeetingMinutesTotal %>, label: "Google" },
-                                { y: data.meetingMinutesTotal, label: data.meetingMinutesLabel },
-                                { y: 7.06, label: "Baidu" },
-                                { y: 4.91, label: "Yahoo" },
-                                { y: 1.26, label: "Others" }
-                            ]
-                        }]
-                    });
-                    chart.render();
+    method: GET
+        // ....
+        .success: function(data) {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                title: {
+                    text: "Desktop Search Engine Market Share - 2016"
+                },
+                data: [{
+                    type: "pie",
+                    startAngle: 240,
+                    yValueFormatString: "##0.00\"%\"",
+                    indexLabel: "{label} {y}",
+                    dataPoints: [
+                        { y: <% MeetingMinutesTotal %>, label: "Google" },
+                        { y: data.meetingMinutesTotal, label: data.meetingMinutesLabel },
+                        { y: 7.06, label: "Baidu" },
+                        { y: 4.91, label: "Yahoo" },
+                        { y: 1.26, label: "Others" }
+                    ]
+                }]
+            });
+            chart.render();
 
-                }
         }
+}
+            };
+
+$('#assigned').on("change", function () {
+    var item = $("#assigned input:selected").text();
+
+    $.post("/Create/SetAssigned",
+        {
+            data: item
+        });
+});
