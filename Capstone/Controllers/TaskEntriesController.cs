@@ -239,12 +239,25 @@ namespace Capstone.Controllers
         public async Task<IActionResult> LogChartz()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var applicationUser = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
-            //var taskEntry = _context.TaskEntry.Where(e => e.TaskLogId == taskLog);
-            var taskEntry = _context.TaskEntry.Where(t => t.TaskLogId == applicationUser.Id);
-            var taskTypes = _context.TaskEntry.Select(y => y.TaskType).Distinct();
-            var taskTimes = _context.TaskEntry.Select(i => i.TaskTime).Distinct();
+            Employee employee = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
+            var taskLog = _context.TaskLog.Where(t => t.ApplicationUserId == userId).LastOrDefault();
+            var taskEntry = _context.Employee.Where(l => l.TaskLogList == taskLog.TaskEntries);
+            var taskType = _context.TaskEntry.Select(y => y.TaskType).Distinct();
+            var taskTime = _context.TaskEntry.Select(m => m.TaskTime).Distinct();
             var taskEntryIds = new List<int>();
+            //var taskEntry = _context.TaskEntry.Where(e => e.TaskLogId == taskLog).FirstOrDefault();
+            //var taskEntry = _context.TaskEntry.Where(t => t.TaskLogId == applicationUser.Id);
+
+            foreach (var y in taskEntry)
+            {
+
+                if (y == y)
+                {
+                  
+                }
+            }
+
+
             //foreach (var item in taskTypes)
             //{
             //    tasks.Add(list.Count(x => x.taskType == item));
@@ -257,11 +270,11 @@ namespace Capstone.Controllers
 
             ////////////////////////////////////////
 
-            var applicationDbContext = _context.TaskEntry.Include(t => t.TaskLog);
+            //var applicationDbContext = _context.TaskEntry.Include(t => t.TaskLog);
             //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             //var applicationUser = _context.Employee.Where(c => c.ApplicationUserId == userId).FirstOrDefault();
-            var chartEntries = new List<TaskEntry>();
-            var taskLog = _context.TaskEntry.Where(t => t.TaskLogId == applicationUser.Id);
+            //var chartEntries = new List<TaskEntry>();
+            //var taskLog = _context.TaskEntry.Where(t => t.TaskLogId == applicationUser.Id);
             //foreach (var t in taskLog)
             //{
             //    var taskType = _context.TaskEntry.Where(y => y.Id == );
